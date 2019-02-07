@@ -142,6 +142,72 @@ class KnowledgeBase(object):
         """
         ####################################################
         # Student code goes here
+        asserted = ''
+        og = ''
+        counter = 0
+        if factq(fact_or_rule):
+            if fact_or_rule in self.facts:
+                my_fact = self._get_fact(fact_or_rule)
+                og = 'fact: ' + my_fact.statement.__str__()
+                if my_fact.asserted:
+                    og += ' ASSERTED' + '\n'
+                else:
+                    og += '\n'
+                if len(my_fact.supported_by) != 0:
+                    og += self.ret_supports(my_fact, counter)
+                print(og)
+                return og
+            else:
+                ansf = 'Fact is not in the KB'
+                return ansf
+        else:
+            if fact_or_rule in self.rules:
+                my_rule = self._get_rule(fact_or_rule)
+                og = 'rule: ' + self.rule_2_string(my_rule)
+                if my_rule.asserted:
+                    og += ' ASSERTED' + '\n'
+                else:
+                    og += '\n'
+                if len(my_rule.supported_by) != 0:
+                    og += self.ret_supports(my_rule, counter)
+                print(og)
+                return og
+            else:
+                ansr = 'Rule is not in the KB'
+                return ansr
+
+    def ret_supports(self, fact_or_rule, count):
+        # return all supporting facts/rules for a fact or rule
+        count += 2
+        sups = ''
+        if len(fact_or_rule.supported_by) != 0:
+            for e in fact_or_rule.supported_by:
+                sups += (count* ' ') + 'SUPPORTED BY' + '\n'
+                if e[0].asserted:
+                    sups += ((count+2)*' ') + 'fact: ' + e[0].statement.__str__() + ' ASSERTED' + '\n'
+                else:
+                    sups += ((count+2)*' ') + 'fact: ' + e[0].statement.__str__() + '\n'
+
+                if e[1].asserted:
+                    sups += ((count+2)*' ') + 'rule: ' + self.rule_2_string(e[1]) + ' ASSERTED' + '\n'
+                else:
+                    sups += ((count+2)*' ') + 'rule: ' + self.rule_2_string(e[1]) + '\n'
+                sups += self.ret_supports(e[0], count+2)
+                sups += self.ret_supports(e[1], count+2)
+        return sups
+
+    def rule_2_string(self, rule):
+        # convert a rule to a string
+        string = '('
+        for e in rule.lhs:
+            string += e.__str__()
+            if e != rule.lhs[len(rule.lhs) -1]:
+                string += ', '
+        # string.strip(', ')
+        string += ') -> '
+        string += rule.rhs.__str__()
+        return string
+
 
 
 class InferenceEngine(object):
