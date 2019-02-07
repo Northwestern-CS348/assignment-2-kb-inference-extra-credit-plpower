@@ -155,7 +155,6 @@ class KnowledgeBase(object):
                     og += '\n'
                 if len(my_fact.supported_by) != 0:
                     og += self.ret_supports(my_fact, counter)
-                print(og)
                 return og
             else:
                 ansf = 'Fact is not in the KB'
@@ -170,7 +169,6 @@ class KnowledgeBase(object):
                     og += '\n'
                 if len(my_rule.supported_by) != 0:
                     og += self.ret_supports(my_rule, counter)
-                print(og)
                 return og
             else:
                 ansr = 'Rule is not in the KB'
