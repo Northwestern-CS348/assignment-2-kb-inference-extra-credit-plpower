@@ -185,12 +185,11 @@ class KnowledgeBase(object):
                     sups += ((count+2)*' ') + 'fact: ' + e[0].statement.__str__() + ' ASSERTED' + '\n'
                 else:
                     sups += ((count+2)*' ') + 'fact: ' + e[0].statement.__str__() + '\n'
-
+                sups += self.ret_supports(e[0], count + 2)
                 if e[1].asserted:
                     sups += ((count+2)*' ') + 'rule: ' + self.rule_2_string(e[1]) + ' ASSERTED' + '\n'
                 else:
                     sups += ((count+2)*' ') + 'rule: ' + self.rule_2_string(e[1]) + '\n'
-                sups += self.ret_supports(e[0], count+2)
                 sups += self.ret_supports(e[1], count+2)
         return sups
 
